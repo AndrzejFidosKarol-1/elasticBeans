@@ -71,7 +71,7 @@ app.post("/api/submit", async (req, res) => {
 
         // Hvis alt gikk bra, send suksess-svar tilbake til nettleseren (frontend)
         res.json({
-            message: "Suksess! Data er mottatt og lagret i Google Sheets.",
+            message: "Suksess! Mer data for oss å mate oss.",
             received: req.body
         });
 

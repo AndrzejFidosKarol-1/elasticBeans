@@ -1,0 +1,25 @@
+name: Deploy til AWS Beanstalk
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Sjekk ut kode
+      uses: actions/checkout@v3
+
+    - name: Generer ZIP-fil
+      run: zip -r deploy.zip . -x "*.git*"
+
+    - name: Deploy til Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: cloud-app-main
+        environment_name: Cloud-app-main-env
+        version_label: ${{ github.sha }}
+        region: eu-north-1 # Sjekk om du brukte eu-west-1 (Irland) i går, eller f.eks. eu-north-1 (Stockholm)
+        deployment_package: deploy.zip
